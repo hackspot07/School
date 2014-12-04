@@ -1,0 +1,24 @@
+doctype html
+html
+ head
+  title Grade Summary
+  link(rel='stylesheet', href='/stylesheets/style.css')  
+ body
+  h1 Grade Summary
+  p
+   div
+    div Name: #{name}
+    form(action ='/updateGrade/#{name}') 
+     input(type="text",name='grade')
+     input(type="submit",value='Update Grade')
+    div Students:
+    ul
+     each student in students
+      li 
+       a(href="/students/#{student.id}") #{student.name}
+    div Subjects:
+    ul
+     each subject in subjects
+       li 
+        a(href="/subject/#{subject.id}") #{subject.name}
+      
