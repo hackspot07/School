@@ -28,6 +28,8 @@ app.get('/subject/:id',school_routes.get_subject_summary);
 app.get('/updateGrade/:grade',school_routes.update_garde);
 app.get('/updateStudentName/:name',school_routes.update_student_name);
 app.get('/updateStudentGrade/:id',school_routes.update_student_grade);
+app.get('/updateStudentScore/:id',school_routes.update_student_score);
+app.get('/updateSubjectName/:id',school_routes.update_subject_name);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

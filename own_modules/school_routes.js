@@ -30,6 +30,7 @@ exports.get_student = function(req,res,next){
 exports.get_subject_summary = function(req,res,next){
 	school_records.getSubjectSummary(req.params.id,
 	function(err,subject){
+		console.log(subject);
 		if(!subject) 
 			next();
 		else 
@@ -73,6 +74,7 @@ exports.update_student_name = function(req,res){
 exports.update_student_grade = function(req,res){
 	var studentId = req.params.id;
 	var gradeId = req.query.changeName;
+	 console.log(studentId,req.params);
 	if(gradeId.trim() != "")
 		school_records.updateStudentGrade([studentId,gradeId],function(err){
 			if(err) res.end("Operation failed");
@@ -80,4 +82,30 @@ exports.update_student_grade = function(req,res){
 				res.redirect("http://localhost:3000/students");
 		});
 	else res.end("Some fields are empty");
-}
+};
+
+exports.update_student_score = function(req,res) {
+	var studentId = req.params.id;
+	var score = req.query.changeName;
+	var subjectId = req.query.subjects;
+	if(score.trim() != "")
+		school_records.updateStudentScore([studentId,subjectId,score],function(err){
+			if(err) res.end("Operation failed");
+			else
+				res.redirect("http://localhost:3000/students/"+studentId);
+		});
+	else res.end("Some fields are empty");	
+};
+
+exports.update_subject_name = function(req,res){
+	var subjectId = req.params.id;
+	var subjectName = req.query.changeName;
+	var subjects = {"id":subjectId,"subjectToChange":subjectName};
+	if(subjectName.trim() != "")
+		school_records.updateSubjectName(subjects,function(err){
+			if(err) res.end("Operation failed");
+			else
+				res.redirect("http://localhost:3000/subject/"+subjectId);
+		});
+	else res.end("Some fields are empty");	
+};

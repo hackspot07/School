@@ -19,3 +19,7 @@ html
      td
       a(href="/students/#{sb.student_id}") #{sb.student_name}
      td #{sb.score}
+  br
+  form
+   input(type="text",name='changeName')
+   button(type = "submit" onclick = "javascript: form.action = '/updateSubjectName/#{subject[0].subject_id}'") Update Subject Name

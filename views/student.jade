@@ -23,8 +23,13 @@ html
        td #{subject.score}
   p
    form
+    select(name="subjects")
+     option --Select-- 
+     each subject in subjects
+      option(value="#{subject.id}")  #{subject.name} 
     input(type="text",name='changeName')
     br
     br
     button(type = "submit" onclick = "javascript: form.action = '/updateStudentName/#{name}'") Update Student Name
     button(type = "submit" onclick = "javascript: form.action = '/updateStudentGrade/#{grade_id}'") Update Student Grade
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentScore/#{id}'") Update Student Score

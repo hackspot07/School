@@ -135,4 +135,26 @@ describe('school_records',function(){
 			})
 		})
 	})
+	describe('#updateStudentScore',function(){
+		it('update the StudentScore of Abu in English-1 from 75 to 80',function(done){
+			school_records.updateStudentScore([1,1,80],function(err){
+				assert.notOk(err);
+				school_records.getStudentSummary(1, function(err,st_details){
+					assert.equal(st_details.subjects[0].score,80);
+				done();
+				})
+			})
+		})
+	})
+	describe('#updateSubjectName',function(){
+		it('update the subject name from cricket to kabbadi',function(done){
+			school_records.updateSubjectName({subjectToChange:"kabbadi",id:1},function(err){
+				assert.notOk(err);
+				school_records.getSubjectSummary(1, function(err,su_details){
+					assert.equal(su_details[0].subject_name,'kabbadi');
+					done();
+				})
+			})
+		})
+	})
 })

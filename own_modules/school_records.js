@@ -73,7 +73,6 @@ var _getSubjectSummary = function(id,db,onComplete){
 	' and sc.subject_id = ',id,
 	' and sc.student_id = st.id ',
 	'and st.grade_id = g.id'].join('');
-
 	db.all(query , function(err, subjectSummary){
 		onComplete(null , subjectSummary);
 	})
@@ -92,7 +91,19 @@ var _updateName = function(updateDb,db,onComplete){
 var _updateStudentGrade = function(ids,db,onComplete){
 	var query = "update students set grade_id='" + ids[1] + "' where id='" + ids[0] + "';";
 	db.run(query,onComplete);
-}
+};
+
+
+var _updateStudentScore = function(ids,db,onComplete){
+	var query="update scores set score ="+ids[2]+" where student_id='"+ids[0]+"' and subject_id='"+ids[1]+"';";
+	db.run(query,onComplete);
+
+};
+
+var _updateSubjectName = function(subjects,db,onComplete){
+	var query="update subjects set name ='"+subjects.subjectToChange+"' where id='"+subjects.id+"';";
+	db.run(query,onComplete);
+};
 
 var init = function(location){	
 	var operate = function(operation){
@@ -120,7 +131,9 @@ var init = function(location){
 		getSubjectSummary: operate(_getSubjectSummary),
 		updateGrade: operate(_updateGrade),
 		updateStudentName:operate(_updateName),
-		updateStudentGrade:operate(_updateStudentGrade)
+		updateStudentGrade:operate(_updateStudentGrade),
+		updateStudentScore:operate(_updateStudentScore),
+		updateSubjectName:operate(_updateSubjectName)
 	};
 
 	return records;
