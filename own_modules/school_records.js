@@ -77,24 +77,22 @@ var _getSubjectSummary = function(id,db,onComplete){
 	db.all(query , function(err, subjectSummary){
 		onComplete(null , subjectSummary);
 	})
-
-
 };
 
 var _updateGrade = function(updateDb,db,onComplete){
-	var query = "update grades set name= '"+updateDb[0]+"' where name='"+updateDb[1]+"';";
-	db.run(query,function(err){
-		onComplete(null);
-	})
+	var query = "update grades set name= '"+updateDb[1]+"' where name='"+updateDb[0]+"';";
+	db.run(query,onComplete)
 };
 
 var _updateName = function(updateDb,db,onComplete){
-	console.log(updateDb)
-	var query = "update students set name ='"+updateDb[0]+"' where name='"+updateDb[1]+"';";
-	db.run(query,function(err){
-		onComplete(null);
-	})	
+	var query = "update students set name ='"+updateDb[1]+"' where name='"+updateDb[0]+"';";
+	db.run(query,onComplete);
 };
+
+var _updateStudentGrade = function(ids,db,onComplete){
+	var query = "update students set grade_id='" + ids[1] + "' where id='" + ids[0] + "';";
+	db.run(query,onComplete);
+}
 
 var init = function(location){	
 	var operate = function(operation){
@@ -121,7 +119,8 @@ var init = function(location){
 		getGradeSummary: operate(_getGradeSummary),
 		getSubjectSummary: operate(_getSubjectSummary),
 		updateGrade: operate(_updateGrade),
-		updateStudentName:operate(_updateName)
+		updateStudentName:operate(_updateName),
+		updateStudentGrade:operate(_updateStudentGrade)
 	};
 
 	return records;
@@ -130,7 +129,7 @@ var init = function(location){
 exports.init = init;
 ////////////////////////////////////
 exports.getSubjects = function(grade,callback){
-	var subjects = grade == 'one' && [
+	var subjects = grade == 'one' && [ 
 		{name:'english-1',grade:'one',max:125},
 		{name:'moral science',grade:'one',max:50},
 		{name:'general science',grade:'one',max:100},

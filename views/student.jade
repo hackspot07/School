@@ -6,10 +6,6 @@ html
  body
   h1 Student Summary
   p
-   div
-   form(action ='/updateName/#{name}') 
-    input(type="text",name='changeName')
-    input(type="submit",value='Update Student Name')
     div Name: #{name}
     div Grade: 
      a(href="/grades/#{grade_id}") #{grade_name}                             
@@ -25,4 +21,10 @@ html
         a(href="/subject/#{subject.id}") #{subject.name}
        td #{subject.maxScore}
        td #{subject.score}
-
+  p
+   form
+    input(type="text",name='changeName')
+    br
+    br
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentName/#{name}'") Update Student Name
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentGrade/#{grade_id}'") Update Student Grade

@@ -49,7 +49,7 @@ exports.get_grade_summary = function(req,res,next){
 exports.update_garde = function(req,res,next){
 	var gradeToChange = req.query['grade'];
 	var currentGrade = req.params.grade;
-	var updateDb = [gradeToChange,currentGrade];
+	var updateDb = [currentGrade,gradeToChange];
 	if(gradeToChange.trim() !="")
 		school_records.updateGrade(updateDb,function(err){
 			
@@ -62,7 +62,22 @@ exports.update_student_name = function(req,res){
 	var changeBy = req.query['changeName'];
 	var updateDb = [preName,changeBy];
 	if(changeBy.trim() !="")
-		school_records.updateStudentName(updateDb,function(err){});
-	res.render('update',{message:"updated successfully"});
-	//res.redirect("http://localhost:3000/students");
+		school_records.updateStudentName(updateDb,function(err){
+			if(err) res.end("Operation failed");
+			else
+				res.redirect("http://localhost:3000/students");
+		});
+	else res.end("Some fields are empty");
 };
+
+exports.update_student_grade = function(req,res){
+	var studentId = req.params.id;
+	var gradeId = req.query.changeName;
+	if(gradeId.trim() != "")
+		school_records.updateStudentGrade([studentId,gradeId],function(err){
+			if(err) res.end("Operation failed");
+			else
+				res.redirect("http://localhost:3000/students");
+		});
+	else res.end("Some fields are empty");
+}

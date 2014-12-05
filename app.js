@@ -1,4 +1,4 @@
-var express = require('express');
+ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -26,7 +26,8 @@ app.get('/students/:id',school_routes.get_student);
 app.get('/grades/:id',school_routes.get_grade_summary);
 app.get('/subject/:id',school_routes.get_subject_summary);
 app.get('/updateGrade/:grade',school_routes.update_garde);
-app.get('/updateName/:name',school_routes.update_student_name);
+app.get('/updateStudentName/:name',school_routes.update_student_name);
+app.get('/updateStudentGrade/:id',school_routes.update_student_grade);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

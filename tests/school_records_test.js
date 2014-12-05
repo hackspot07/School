@@ -81,7 +81,6 @@ describe('school_records',function(){
 		})
 	})
 
-
 	describe('#getSubjectSummary',function(){
 		it('retrieves the summary of subject 1',function(done){
 			school_records.getSubjectSummary(1,function(err,subject){
@@ -96,6 +95,43 @@ describe('school_records',function(){
  						 student_id: 1,
  						 score: 75 }]);
 				done();
+			})
+		})
+	})
+
+	describe('#updateGrade',function(){
+		it('update the grade_name from 1st std to class 1',function(done){
+			school_records.updateGrade(["1st std","class 1"],function(err){
+				assert.notOk(err);
+			school_records.getGradeSummary(1,function(err,grade){
+				assert.equal(grade.name,'class 1');
+				done();
+			})
+
+			})
+		})
+	})
+	describe('#updateStudentName',function(){
+		it('update the StudentName from Abu to badbu',function(done){
+			school_records.updateStudentName(["Abu","badbu"],function(err){
+				assert.notOk(err);
+			school_records.getStudentSummary(1, function(err,st_details){				
+				assert.equal(st_details.name,'badbu');
+				done();
+			})
+
+			})
+		})
+	})
+
+	describe('#updateStudentGrade',function(){
+		it('update the StudentGrade of Abu from 1 to 2',function(done){
+			school_records.updateStudentGrade(["1","2"],function(err){
+				assert.notOk(err);
+				school_records.getStudentSummary(1, function(err,st_details){				
+					assert.equal(st_details.grade_id,2);
+				done();
+			})
 			})
 		})
 	})
