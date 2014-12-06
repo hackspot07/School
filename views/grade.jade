@@ -2,20 +2,24 @@ doctype html
 html
  head
   title Grade Summary
+  script
+   include ../scripts/popupWindow.js
+   include ../own_modules/school_routes.js
   link(rel='stylesheet', href='/stylesheets/style.css')  
  body
   h1 Grade Summary
   p
    div
     div Name: #{name}
-    form(action ='/updateGrade/#{name}') 
+    form
      input(type="text",name='grade')
-     input(type="submit",value='Update Grade')
-    div Students:
-    ul
-     each student in students
-      li 
-       a(href="/students/#{student.id}") #{student.name}
+     button(type = "submit" onclick = "javascript: form.action = '/updateGrade/#{name}'") Update Student Grade
+     div Students:
+     ul
+      each student in students
+       li 
+        a(href="/students/#{student.id}") #{student.name}
+     button(type = "submit" onclick = "javascript: form.action ='/addStudent/#{name}'") Add Student
     div Subjects:
     ul
      each subject in subjects

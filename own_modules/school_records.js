@@ -18,12 +18,11 @@ var _getStudentsByGrade = function(db,onComplete){
 };
 
 var _getSubjectsByGrade = function(db,onComplete){
-	_getGrades(db,function(err,grades){		
+	_getGrades(db,function(err,grades){	
 		db.all('select * from subjects', function(err1,subjects){
-			
 			grades.forEach(function(g){
 				g.subjects = subjects.filter(function(s){return s.grade_id==g.id});
-			})			
+			})	
 			onComplete(null,grades);
 		})
 	});	
@@ -31,16 +30,16 @@ var _getSubjectsByGrade = function(db,onComplete){
 
 var _getStudentSummary = function(id, db,onComplete){
 	var student_grade_query = 'select s.name as name, s.id as id, g.name as grade_name, g.id as grade_id '+
-		'from students s, grades g where s.grade_id = g.id and s.id='+id;
+	'from students s, grades g where s.grade_id = g.id and s.id='+id;
 	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score '+
-		'from subjects su, scores sc '+
-		'where su.id = sc.subject_id and sc.student_id ='+id;
+	'from subjects su, scores sc '+
+	'where su.id = sc.subject_id and sc.student_id ='+id;
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);
-			return;
-		}
-		db.all(subject_score_query,function(esc,subjects){			
+		return;
+	}
+	db.all(subject_score_query,function(esc,subjects){	
 			student.subjects = subjects;
 			onComplete(null,student);
 		})
@@ -101,7 +100,13 @@ var _updateStudentScore = function(ids,db,onComplete){
 };
 
 var _updateSubjectName = function(subjects,db,onComplete){
-	var query="update subjects set name ='"+subjects.subjectToChange+"' where id='"+subjects.id+"';";
+	var query1="update subjects set name ='"+subjects.subjectToChange+"' where id='"+subjects.id+"';";
+	var query2="update subjects set maxScore ='"+subjects.subjectToChange+"' where name='"+subjects.nameForChange+"';";
+	(subjects.nameForChange==undefined)?db.run(query1,onComplete):db.run(query2,onComplete);
+};
+
+var _addStudent = function(obj,db,onComplete){
+	var query = "insert into students('name','grade_id')values('"+obj.studentName+"',"+obj.gradeId+")";
 	db.run(query,onComplete);
 };
 
@@ -133,7 +138,8 @@ var init = function(location){
 		updateStudentName:operate(_updateName),
 		updateStudentGrade:operate(_updateStudentGrade),
 		updateStudentScore:operate(_updateStudentScore),
-		updateSubjectName:operate(_updateSubjectName)
+		updateSubjectName:operate(_updateSubjectName),
+		addStudent:operate(_addStudent)
 	};
 
 	return records;

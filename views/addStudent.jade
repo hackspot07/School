@@ -1,0 +1,23 @@
+head
+  title Add New Student
+  script
+   include ../scripts/popupWindow.js
+  link(rel='stylesheet', href='/stylesheets/style.css')  
+ body
+  div 
+  form(action='/addStudentData')
+   table 
+    tr 
+     td Name
+     td 
+      input(type="text",name='studentName')
+    tr
+     td Grade
+     form
+     td
+      select(name="grades")
+       each grade in grades
+        option(value = "#{grade.id}")  #{grade.name} 
+    tr
+     td(text-align='center') 
+      button(type='submit') Submit

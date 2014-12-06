@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+div {
+	padding-top: 5px;
+}
+td{
+	padding-left: 50px;
+	padding-right: 50px;
+}

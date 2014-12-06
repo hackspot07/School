@@ -157,4 +157,15 @@ describe('school_records',function(){
 			})
 		})
 	})
+	// describe('#updateSubjectScore',function(){
+	// 	it('update the subject Score from cricket to kabbadi',function(done){
+	// 		school_records.updateSubjectName({subjectToChange:"kabbadi",id:1},function(err){
+	// 			assert.notOk(err);
+	// 			school_records.getSubjectSummary(1, function(err,su_details){
+	// 				assert.equal(su_details[0].subject_name,'kabbadi');
+	// 				done();
+	// 			})
+	// 		})
+	// 	})
+	// })
 })

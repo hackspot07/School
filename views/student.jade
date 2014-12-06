@@ -24,7 +24,6 @@ html
   p
    form
     select(name="subjects")
-     option --Select-- 
      each subject in subjects
       option(value="#{subject.id}")  #{subject.name} 
     input(type="text",name='changeName')

@@ -13,6 +13,7 @@ exports.get_students = function(req,res){
 
 exports.get_subjects = function(req,res){
 	school_records.getSubjectsByGrade(function(err,grades){
+		console.log(grades);
 		res.render('subjects',{grades:grades});
 	});
 };
@@ -30,7 +31,6 @@ exports.get_student = function(req,res,next){
 exports.get_subject_summary = function(req,res,next){
 	school_records.getSubjectSummary(req.params.id,
 	function(err,subject){
-		console.log(subject);
 		if(!subject) 
 			next();
 		else 
@@ -74,7 +74,6 @@ exports.update_student_name = function(req,res){
 exports.update_student_grade = function(req,res){
 	var studentId = req.params.id;
 	var gradeId = req.query.changeName;
-	 console.log(studentId,req.params);
 	if(gradeId.trim() != "")
 		school_records.updateStudentGrade([studentId,gradeId],function(err){
 			if(err) res.end("Operation failed");
@@ -99,13 +98,34 @@ exports.update_student_score = function(req,res) {
 
 exports.update_subject_name = function(req,res){
 	var subjectId = req.params.id;
+	var nameForChange = req.params.name;
 	var subjectName = req.query.changeName;
-	var subjects = {"id":subjectId,"subjectToChange":subjectName};
+	var subjects = {"nameForChange":nameForChange,"id":subjectId,"subjectToChange":subjectName};
 	if(subjectName.trim() != "")
 		school_records.updateSubjectName(subjects,function(err){
 			if(err) res.end("Operation failed");
-			else
-				res.redirect("http://localhost:3000/subject/"+subjectId);
+			  else{ 
+			  	(nameForChange==undefined)?
+				res.redirect("http://localhost:3000/subject/"+subjectId):
+				res.redirect("http://localhost:3000/subjects"); 
+			}
 		});
 	else res.end("Some fields are empty");	
 };
+
+exports.add_new_student = function(req,res){
+ 	school_records.getGrades(function(err,grades){
+ 		res.render('addStudent',{grades:grades});
+ 	});	
+};
+ exports.add_student = function(req,res){
+ 	var grade_id = req.query.grades;
+ 	var studentname = req.query.studentName;
+ 	var obj = {"studentName":studentname,"gradeId":grade_id};
+ 	console.log(obj);
+ 	school_records.addStudent(obj,function(err){
+ 		if(err) res.end("Opeertaion failed");
+ 		else
+ 		res.redirect("http://localhost:3000/grades/"+grade_id);	
+ 	})
+ };
