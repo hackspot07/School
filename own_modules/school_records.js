@@ -32,8 +32,9 @@ var _getStudentSummary = function(id, db,onComplete){
 	var student_grade_query = 'select s.name as name, s.id as id, g.name as grade_name, g.id as grade_id '+
 		'from students s, grades g where s.grade_id = g.id and s.id='+id;
 	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score '+
-		'from subjects su, scores sc '+
-		'where su.id = sc.subject_id and sc.student_id ='+id;
+		'from subjects su, scores sc, students st '+
+		'where st.grade_id = su.grade_id and st.id = '+id+' and sc.student_id ='+id;
+	
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);
@@ -153,57 +154,3 @@ var init = function(location){
 };
 
 exports.init = init;
-////////////////////////////////////
-exports.getSubjects = function(grade,callback){
-	var subjects = grade == 'one' && [ 
-		{name:'english-1',grade:'one',max:125},
-		{name:'moral science',grade:'one',max:50},
-		{name:'general science',grade:'one',max:100},
-		{name:'maths-1',grade:'one',max:100},
-		{name:'craft',grade:'one',max:25},
-		{name:'music',grade:'one',max:25},
-		{name:'hindi-1',grade:'one',max:75}
-	] || [];
-	callback(null,subjects);
-};
-
-exports.getScoresBySubject = function(subject,callback){
-	var scores = subject != 'craft' && [] || [
-		{name:'Abu',score:20},
-		{name:'Babu',score:18},
-		{name:'Ababu',score:21},
-		{name:'Dababu',score:22},
-		{name:'Badadadababu',score:23},
-		{name:'babudada',score:24}
-	];
-	callback(null,scores);
-};
-
-
-
-
-
-
-
-
-
-
-
-
-	// var subject_query = "select name, grade_id, maxScore from subjects where id ="+id;
-	// db.get(subject_query,function(err,subject){
-	// 	var student_query = "select id,name from students where grade_id="+subject.grade_id;
-	// 	db.all(student_query,function(est,student){
-	// 		subject.student = student;
-	// 		// subject.student.forEach(function(st){
-	// 		// 	db.get('select score from scores where student_id ='+st.id+' and subject_id = '+ id,function(esc,score){
-	// 		// 		score && (st.score=score.score);
-	// 		// 	});
-	// 		// });
-	// 		var grade_query = "select name from grades where id="+subject.grade_id;
-	// 		db.all(grade_query,function(egr,grade){
-	// 			subject.grade = grade;
-	// 			onComplete(null,subject);
-	// 		});
-	// 	});
-	// });
