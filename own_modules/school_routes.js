@@ -13,7 +13,6 @@ exports.get_students = function(req,res){
 
 exports.get_subjects = function(req,res){
 	school_records.getSubjectsByGrade(function(err,grades){
-		console.log(grades);
 		res.render('subjects',{grades:grades});
 	});
 };
@@ -122,9 +121,26 @@ exports.add_new_student = function(req,res){
  	var grade_id = req.query.grades;
  	var studentname = req.query.studentName;
  	var obj = {"studentName":studentname,"gradeId":grade_id};
- 	console.log(obj);
  	school_records.addStudent(obj,function(err){
  		if(err) res.end("Opeertaion failed");
+ 		else
+ 		res.redirect("http://localhost:3000/grades/"+grade_id);	
+ 	})
+ };
+
+ exports.add_new_subjects = function(req,res){
+ 	school_records.getGrades(function(err,grades){
+ 		res.render('addSubject',{grades:grades});
+ 	});	
+};
+
+ exports.add_subject = function(req,res){
+ 	var grade_id = req.query.grades;
+ 	var subjectName = req.query.SubjectName;
+ 	var maxScore = req.query.maxScore;
+ 	var obj = {"subjectName":subjectName,"gradeId":grade_id,"maxScore":maxScore};
+ 	school_records.addSubject(obj,function(err){
+ 		if(err) res.end("Operation failed");
  		else
  		res.redirect("http://localhost:3000/grades/"+grade_id);	
  	})

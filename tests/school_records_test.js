@@ -157,15 +157,41 @@ describe('school_records',function(){
 			})
 		})
 	})
-	// describe('#updateSubjectScore',function(){
-	// 	it('update the subject Score from cricket to kabbadi',function(done){
-	// 		school_records.updateSubjectName({subjectToChange:"kabbadi",id:1},function(err){
-	// 			assert.notOk(err);
-	// 			school_records.getSubjectSummary(1, function(err,su_details){
-	// 				assert.equal(su_details[0].subject_name,'kabbadi');
-	// 				done();
-	// 			})
-	// 		})
-	// 	})
-	// })
+	describe('#updateSubjectMaxScore',function(){
+		it('update the English-1 MaxScore from 100 to 150',function(done){
+			school_records.updateSubjectName({subjectToChange:150,nameForChange:"English-1"},function(err){
+				assert.notOk(err);
+				school_records.getSubjectSummary(1, function(err,su_details){
+					assert.equal(su_details[0].maxScore,150);
+					done();
+				})
+			})
+		})
+	})
+	describe('#addNewStudent',function(){
+		it('add new student from student summary page',function(done){
+			school_records.addStudent({studentName:"Heera",gradeId:1},function(err){
+				assert.notOk(err);
+				school_records.getStudentSummary(8, function(err,su_details){
+					assert.equal(su_details.name,"Heera");
+					done();
+				})
+			})
+		})
+	})
+	
+	describe('#addStudentSubject',function(){
+		it('add subject of student from student summary page',function(done){
+			school_records.addSubject({gradeId:1,subjectName:"TT",maxScore:75},function(err){
+				assert.notOk(err);
+				school_records.getSubjectsByGrade(function(err,sub_details){
+					assert.equal(sub_details[0].subjects[3].name,"TT");
+					assert.equal(sub_details[0].subjects[3].maxScore,75);
+					done();
+				})
+			})
+		})
+	})
+
+
 })

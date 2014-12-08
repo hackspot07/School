@@ -30,16 +30,16 @@ var _getSubjectsByGrade = function(db,onComplete){
 
 var _getStudentSummary = function(id, db,onComplete){
 	var student_grade_query = 'select s.name as name, s.id as id, g.name as grade_name, g.id as grade_id '+
-	'from students s, grades g where s.grade_id = g.id and s.id='+id;
+		'from students s, grades g where s.grade_id = g.id and s.id='+id;
 	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score '+
-	'from subjects su, scores sc '+
-	'where su.id = sc.subject_id and sc.student_id ='+id;
+		'from subjects su, scores sc '+
+		'where su.id = sc.subject_id and sc.student_id ='+id;
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);
 		return;
-	}
-	db.all(subject_score_query,function(esc,subjects){	
+		}
+		db.all(subject_score_query,function(esc,subjects){	
 			student.subjects = subjects;
 			onComplete(null,student);
 		})
@@ -105,10 +105,16 @@ var _updateSubjectName = function(subjects,db,onComplete){
 	(subjects.nameForChange==undefined)?db.run(query1,onComplete):db.run(query2,onComplete);
 };
 
-var _addStudent = function(obj,db,onComplete){
-	var query = "insert into students('name','grade_id')values('"+obj.studentName+"',"+obj.gradeId+")";
+var _addStudent = function(studentDetails,db,onComplete){
+	var query = "insert into students('name','grade_id')values('"+studentDetails.studentName+"',"+studentDetails.gradeId+")";
 	db.run(query,onComplete);
 };
+
+var _addSubject = function(subjectDetails,db,onComplete){
+	console.log(subjectDetails);
+	var query = "insert into subjects('name','maxScore',grade_id)values('"+subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
+	db.run(query,onComplete);
+}
 
 var init = function(location){	
 	var operate = function(operation){
@@ -139,7 +145,8 @@ var init = function(location){
 		updateStudentGrade:operate(_updateStudentGrade),
 		updateStudentScore:operate(_updateStudentScore),
 		updateSubjectName:operate(_updateSubjectName),
-		addStudent:operate(_addStudent)
+		addStudent:operate(_addStudent),
+		addSubject:operate(_addSubject)
 	};
 
 	return records;

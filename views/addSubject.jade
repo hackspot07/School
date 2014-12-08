@@ -1,0 +1,27 @@
+head
+  title Add New Subject
+  script
+   include ../scripts/popupWindow.js
+  link(rel='stylesheet', href='/stylesheets/style.css')  
+ body
+  div 
+  form(action='/addSubjectData')
+   table 
+    tr 
+     td Subject Name
+     td 
+      input(type="text",name='SubjectName')
+    tr
+     td Grade
+     form
+     td
+      select(name="grades")
+       each grade in grades
+        option(value = "#{grade.id}")  #{grade.name} 
+    tr
+     td Max Score
+     td 
+      input(type="text",name='maxScore')
+    tr
+     td(text-align='center') 
+      button(type='submit') Submit

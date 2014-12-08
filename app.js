@@ -30,10 +30,13 @@ app.get('/updateStudentName/:name',school_routes.update_student_name);
 app.get('/updateStudentGrade/:id',school_routes.update_student_grade);
 app.get('/updateStudentScore/:id',school_routes.update_student_score);
 app.get('/updateSubjectName/:id',school_routes.update_subject_name);
-app.get('/updateSubjectMaxScore/:id',school_routes.update_subject_name);
 app.get('/updateSubjectMaxScore/:name',school_routes.update_subject_name);
 app.get('/addStudent/:name',school_routes.add_new_student);
 app.get('/addStudentData',school_routes.add_student);
+app.get('/addSubject/:id',school_routes.add_new_subjects);
+app.get('/addSubjectData',school_routes.add_subject);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
