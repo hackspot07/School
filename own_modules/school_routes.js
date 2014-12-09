@@ -20,7 +20,6 @@ exports.get_subjects = function(req,res){
 exports.get_student = function(req,res,next){
 	school_records.getStudentSummary(req.params.id,
 	function(err,student){
-		console.log(student)
 		if(!student) 
 			next();
 		else 
