@@ -37,9 +37,9 @@ var _getStudentSummary = function(id, db,onComplete){
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);
-		return;
+			return;
 		}
-		db.all(subject_score_query,function(esc,subjects){	
+		db.all(subject_score_query,function(esc,subjects){			
 			student.subjects = subjects;
 			onComplete(null,student);
 		})
