@@ -45,7 +45,8 @@ describe('school_records',function(){
 
 	describe('#getStudentSummary',function(){
 		it('retrieves the summary of the student Abu',function(done){
-			school_records.getStudentSummary(1, function(err,s){				
+			school_records.getStudentSummary(1, function(err,s){
+			console.log(s);				
 				assert.equal(s.name,'Abu');
 				assert.equal(s.grade_name,'1st std');
 				assert.deepEqual(s.subjects,[{id:1,name:'English-1',score:75,maxScore:100},
