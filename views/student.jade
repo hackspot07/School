@@ -26,7 +26,7 @@ html
     select(name="subjects")
      each subject in subjects
       option(value="#{subject.id}")  #{subject.name} 
-    input(type="text",name='changeName')
+    input(type="text",name='changeName',placeholder="Enter Name ,Grade Id or Score", font size="30")
     br
     br
     button(type = "submit" onclick = "javascript: form.action = '/updateStudentName/#{name}'") Update Student Name
