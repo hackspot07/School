@@ -31,9 +31,15 @@ var _getSubjectsByGrade = function(db,onComplete){
 var _getStudentSummary = function(id, db,onComplete){
 	var student_grade_query = 'select s.name as name, s.id as id, g.name as grade_name, g.id as grade_id '+
 		'from students s, grades g where s.grade_id = g.id and s.id='+id;
+<<<<<<< HEAD
 	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score from subjects su,'+
 	' students st,scores sc where  su.grade_id=st.grade_id and '+
 	'sc.student_id = st.id and sc.subject_id = su.id and st.id ='+id ;
+=======
+	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score '+
+		'from subjects su, scores sc '+
+		'where su.id = sc.subject_id and sc.student_id = '+id;
+>>>>>>> ed5b0fdb74bc90467f60284e8fa5d3947173f271
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);

@@ -21,6 +21,6 @@ html
      td #{sb.score}
   br
   form
-   input(type="text",name='changeName')
+   input(type="text",name='changeName',placeholder="Enter Subject Name or Score")
    button(type = "submit" onclick = "javascript: form.action = '/updateSubjectName/#{subject[0].subject_id}'") Update Subject Name
    button(type = "submit" onclick = "javascript: form.action = '/updateSubjectMaxScore/#{subject[0].subject_name}'") Update Max Score

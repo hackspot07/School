@@ -1,12 +1,45 @@
 <html>
 <head>
-	<title>The School Records</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<title>ThoughtWorks School</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script type="text/javascript">
+		function gotoGrade(){
+			var gradeList = document.getElementById('gradeList');
+			var id = gradeList[gradeList.selectedIndex].value	
+			window.location.href = window.location.href + "grades/"+id;
+		}
+		function gotoStudent(){
+			var id = document.getElementById('rollNo').value;
+			window.location.href = window.location.href + "students/"+id;
+		}
+	</script>
 </head>
 <body>
-	<h1>The School Records</h1>
-	<ul>
-		<li> <a href="/students">List of Students</a></li>		
-	</ul>
+	<div class='schoolHeading' ><center><h1>Welcome to thoughtworks school<h1></center></div></br>
+	<div class= "nav">
+		 <a href="http://localhost:3000/grades/1">Add Student</a><br/>
+		 <a href="http://localhost:3000/grades/">Edit Grade</a><br/>
+		 <a href="http://localhost:3000/students/">Student Summary</a><br/>
+		 <a href="http://localhost:3000/grades/1">Grade Summary</a></br>
+		 <a href="http://localhost:3000/subjects/">List Of Subject</a></br>
+		 <a href="http://localhost:3000/subjects">Subject Summary</a></br>
+		 <a href="http://localhost:3000/grades/1"> Add Subject</a></br>
+	</div>
+	<div class = 'gradeList'>
+		<select id = "gradeList" style="width: 150px">
+			<option value ='1'>class 1</option>
+			<option value ='2'>class 2</option>
+		</select>
+		<button onclick = "gotoGrade()" style="width: 50px">Goto</button>
+	</div>
+	
+	<div class ='studentSearch'>
+		Regd. No: <input type="text" name="rollNo" id = 'rollNo'><br>
+		<button onclick = "gotoStudent()">Goto</button>
+	</div>
+	</br>
+	<div class="footer">
+		Copyright © Thoughtworks Technology(India) pvt. Limted
+</div>
 </body>
 </html>
