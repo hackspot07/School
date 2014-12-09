@@ -110,9 +110,13 @@ var _addSubject = function(subjectDetails,db,onComplete){
 	db.run(query,onComplete);
 }
 var _addStudent = function(studentDetails,db,onComplete){
+	console.log(studentDetails);
 	var add_student_query = "insert into students('name','grade_id')values('"+studentDetails.studentName+"',"+studentDetails.gradeId+")";
+	console.log(add_student_query);
 	var student_id_query = "select id from students where name = '"+studentDetails.studentName+"' and grade_id="+studentDetails.gradeId+";";
+	console.log(student_id_query);
 	var student_subjects_query = "select id from subjects where grade_id="+studentDetails.gradeId;
+	console.log(student_subjects_query);
 		db.get(add_student_query,function(err){
 			db.all(student_id_query,function(err,st_id){
 				db.all(student_subjects_query,function(err,su_id){
