@@ -20,6 +20,7 @@ exports.get_subjects = function(req,res){
 exports.get_student = function(req,res,next){
 	school_records.getStudentSummary(req.params.id,
 	function(err,student){
+		console.log(student)
 		if(!student) 
 			next();
 		else 
@@ -117,7 +118,8 @@ exports.add_new_student = function(req,res){
  		res.render('addStudent',{grades:grades});
  	});	
 };
- exports.add_student = function(req,res){
+
+exports.add_student = function(req,res){
  	var grade_id = req.query.grades;
  	var studentname = req.query.studentName;
  	var obj = {"studentName":studentname,"gradeId":grade_id};
@@ -128,13 +130,13 @@ exports.add_new_student = function(req,res){
  	})
  };
 
- exports.add_new_subjects = function(req,res){
+exports.add_new_subjects = function(req,res){
  	school_records.getGrades(function(err,grades){
  		res.render('addSubject',{grades:grades});
  	});	
 };
 
- exports.add_subject = function(req,res){
+exports.add_subject = function(req,res){
  	var grade_id = req.query.grades;
  	var subjectName = req.query.SubjectName;
  	var maxScore = req.query.maxScore;
