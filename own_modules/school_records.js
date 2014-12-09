@@ -33,7 +33,7 @@ var _getStudentSummary = function(id, db,onComplete){
 		'from students s, grades g where s.grade_id = g.id and s.id='+id;
 	var subject_score_query = 'select su.name, su.id, su.maxScore, sc.score '+
 		'from subjects su, scores sc '+
-		'where su.id = sc.subject_id and sc.student_id ='+id;
+		'where su.id = sc.subject_id and sc.student_id = '+id;
 	db.get(student_grade_query,function(est,student){
 		if(!student){
 			onComplete(null,null);
