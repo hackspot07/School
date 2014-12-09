@@ -111,7 +111,6 @@ var _addStudent = function(studentDetails,db,onComplete){
 };
 
 var _addSubject = function(subjectDetails,db,onComplete){
-	console.log(subjectDetails);
 	var query = "insert into subjects('name','maxScore',grade_id)values('"+subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
 	db.run(query,onComplete);
 }
