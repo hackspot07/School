@@ -128,11 +128,9 @@ var insertTemplate = function(tbl,tblElements,values){
 	return "insert into "+tbl+"("+tblElements.toSring()+") values ('"+values.toSring()+")";
 }
 var _addStudent = function(studentDetails,db,onComplete){
-	var add_student_query = insertTemplate("students",['name','grade_id'],[studentDetails.studentName,studentDetails.gradeId])
+	var add_student_query = insertTemplate("students",['name','grade_id'],[studentDetails.studentName,studentDetails.gradeId]);
 	var student_id_query = selectTemplate("id","students",{name:studentDetails.studentName,grade_id:studentDetails.gradeId});
-	// var student_id_query = "select id from students where name = '"+studentDetails.studentName+"' and grade_id="+studentDetails.gradeId+";";
 	var student_subjects_query =selectTemplate("id","subjects",{grade_id:studentDetails.gradeId});
-	// var student_subjects_query = "select id from subjects where grade_id="+studentDetails.gradeId;
 	db.get(add_student_query,function(err){
 		db.all(student_id_query,function(err,st_id){
 			db.all(student_subjects_query,function(err,su_id){
@@ -145,7 +143,7 @@ var _addStudent = function(studentDetails,db,onComplete){
 				})
 			})
 		})
-		(!err) && onComplete(null);
+		onComplete(null);
 	})
 };
 			
