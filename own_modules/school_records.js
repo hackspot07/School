@@ -1,4 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
+var myDebug =true;
 
 var _getGrades = function(db,onComplete){
 	var q = 'select * from grades';
@@ -77,38 +78,61 @@ var _getSubjectSummary = function(id,db,onComplete){
 	})
 };
 
+var prepareCondition = function(obj){
+	var conditionString ="";
+	conditionObject = Object.keys(obj); 
+	conditionObject.forEach(function(condition,i){
+		conditionString += condition+" ='"+obj[condition]+"'";
+		if(conditionObject[i+1]) conditionString += "and "
+	})
+	return conditionString;
+};
+var updateTemplate = function(table,elementToUpdate,rowToUpdate,conditions){
+	return "update "+table+" set "+elementToUpdate+"='"+rowToUpdate+"' where "+ prepareCondition(conditions)
+};
+
 var _updateGrade = function(updateDb,db,onComplete){
-	var query = "update grades set name= '"+updateDb[1]+"' where name='"+updateDb[0]+"';";
+	var query = updateTemplate("grades","name",updateDb[1],{name:updateDb[0]})
 	db.run(query,onComplete)
 };
 
 var _updateName = function(updateDb,db,onComplete){
-	var query = "update students set name ='"+updateDb[1]+"' where name='"+updateDb[0]+"';";
+	var query = updateTemplate("students","name",updateDb[1],{"name":updateDb[0]});
 	db.run(query,onComplete);
 };
 
 var _updateStudentGrade = function(ids,db,onComplete){
-	var query = "update students set grade_id='" + ids[1] + "' where id='" + ids[0] + "';";
+	var query = updateTemplate("students","grade_id",ids[1],{"id":ids[0]})
 	db.run(query,onComplete);
 };
 
 
 var _updateStudentScore = function(ids,db,onComplete){
-	var query="update scores set score ="+ids[2]+" where student_id='"+ids[0]+"' and subject_id='"+ids[1]+"';";
+	var query = updateTemplate("scores","score",ids[2],{"student_id":ids[0],subject_id:ids[1]})
 	db.run(query,onComplete);
 
 };
 
 var _updateSubjectName = function(subjects,db,onComplete){
-	var query1="update subjects set name ='"+subjects.subjectToChange+"' where id='"+subjects.id+"';";
-	var query2="update subjects set maxScore ='"+subjects.subjectToChange+"' where name='"+subjects.nameForChange+"';";
+	var query1=updateTemplate("subjects","name",subjects.subjectToChange,{id:subjects.id})
+	console.log(subjects);
+	var query2=updateTemplate("subjects","maxScore",subjects.subjectToChange,{name:subjects.nameForChange});
 	(subjects.nameForChange==undefined)?db.run(query1,onComplete):db.run(query2,onComplete);
 };
 
+var selectTemplate = function(element,table,conditions){
+	return "select "+element+" from "+table+" where "+ prepareCondition(conditions)
+};
+
+var insertTemplate = function(tbl,tblElements,values){
+	return "insert into "+tbl+"("+tblElements.toSring()+") values ('"+values.toSring()+")";
+}
 var _addStudent = function(studentDetails,db,onComplete){
-	var add_student_query = "insert into students('name','grade_id')values('"+studentDetails.studentName+"',"+studentDetails.gradeId+")";
-	var student_id_query = "select id from students where name = '"+studentDetails.studentName+"' and grade_id="+studentDetails.gradeId+";";
-	var student_subjects_query = "select id from subjects where grade_id="+studentDetails.gradeId;
+	var add_student_query = insertTemplate("students",['name','grade_id'],[studentDetails.studentName,studentDetails.gradeId])
+	var student_id_query = selectTemplate("id","students",{name:studentDetails.studentName,grade_id:studentDetails.gradeId});
+	// var student_id_query = "select id from students where name = '"+studentDetails.studentName+"' and grade_id="+studentDetails.gradeId+";";
+	var student_subjects_query =selectTemplate("id","subjects",{grade_id:studentDetails.gradeId});
+	// var student_subjects_query = "select id from subjects where grade_id="+studentDetails.gradeId;
 	db.get(add_student_query,function(err){
 		db.all(student_id_query,function(err,st_id){
 			db.all(student_subjects_query,function(err,su_id){
@@ -131,13 +155,14 @@ var _addSubject = function(subjectDetails,db,onComplete){
 	db.run(query,onComplete);
 }
 var _addStudent = function(studentDetails,db,onComplete){
-	console.log(studentDetails);
+	(myDebug)&&console.log(studentDetails);
 	var add_student_query = "insert into students('name','grade_id')values('"+studentDetails.studentName+"',"+studentDetails.gradeId+")";
-	console.log(add_student_query);
+	(myDebug)&&console.log(add_student_query);
 	var student_id_query = "select id from students where name = '"+studentDetails.studentName+"' and grade_id="+studentDetails.gradeId+";";
-	console.log(student_id_query);
+	(myDebug)&&console.log(student_id_query);
 	var student_subjects_query = "select id from subjects where grade_id="+studentDetails.gradeId;
-	console.log(student_subjects_query);
+	(myDebug)&&console.log(student_subjects_query);
+		
 		db.get(add_student_query,function(err){
 			db.all(student_id_query,function(err,st_id){
 				db.all(student_subjects_query,function(err,su_id){
