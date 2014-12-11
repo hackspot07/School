@@ -1,0 +1,26 @@
+doctype html
+html
+ head
+  title Subject Summary
+  link(rel='stylesheet', href='/stylesheets/style.css')  
+ body
+  h1 Subject Summary
+  table(border=1)
+   tr 
+   th #{subject[0].subject_name}
+   th #{subject[0].maxScore}
+   th 
+    a(href="/grades/#{subject[0].grade_id}") #{subject[0].grade_name}
+  table(border=1 )
+   th Student Name
+   th Score
+   each sb in subject
+    tr 
+     td
+      a(href="/students/#{sb.student_id}") #{sb.student_name}
+     td #{sb.score}
+  br
+  form
+   input(type="text",name='changeName',placeholder="Enter Subject Name or Score")
+   button(type = "submit" onclick = "javascript: form.action = '/updateSubjectName/#{subject[0].subject_id}'") Update Subject Name
+   button(type = "submit" onclick = "javascript: form.action = '/updateSubjectMaxScore/#{subject[0].subject_name}'") Update Max Score

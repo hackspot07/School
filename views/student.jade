@@ -1,0 +1,34 @@
+doctype html
+html
+ head
+  title Student Summary
+  link(rel='stylesheet', href='/stylesheets/style.css')  
+ body
+  h1 Student Summary
+  p
+    div Name: #{name}
+    div Grade: 
+     a(href="/grades/#{grade_id}") #{grade_name}                             
+   div
+    table(border="4")
+     tr
+      th Subject
+      th Max
+      th Score
+     each subject in subjects
+      tr
+       td
+        a(href="/subject/#{subject.id}") #{subject.name}
+       td #{subject.maxScore}
+       td #{subject.score}
+  p
+   form
+    select(name="subjects")
+     each subject in subjects
+      option(value="#{subject.id}")  #{subject.name} 
+    input(type="text",name='changeName',placeholder="Enter Name ,Grade Id or Score", font size="30")
+    br
+    br
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentName/#{name}'") Update Student Name
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentGrade/#{id}'") Update Student Grade
+    button(type = "submit" onclick = "javascript: form.action = '/updateStudentScore/#{id}'") Update Student Score

@@ -1,0 +1,36 @@
+.schoolHeading{
+    background-color:gray;
+    color:white;
+    text-align:center;
+     padding:5px;
+    font-size: 30px
+}
+.nav {
+    line-height:50px;
+    background-color:gray;
+    color:white;
+    height:400px;
+    width:200px;
+    float:left;
+    padding:4px;	      
+}
+.gradeList{
+	 width:350px;
+    float:left;
+    background-color:lightyellow;
+    padding:10px;	
+}
+.studentSearch{
+    width:350px;
+    float:right;
+    background-color:lightyellow;
+    padding:10px;	 	 
+}
+
+.footer {
+    background-color:gray;
+    color:white;
+    clear:both;
+    text-align:center;
+   padding:10px;	 	 
+}
