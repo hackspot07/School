@@ -124,10 +124,27 @@ var insertTemplate = function(tbl,tblElements,values){
 }
 
 var _addSubject = function(subjectDetails,db,onComplete){
+	console.log(subjectDetails)
 	var query = "insert into subjects('name','maxScore',grade_id)values('"+
-		subjectDetails.subjectNa+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
-	db.run(query,onComplete);
-}
+		subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
+	var subjectId = "select max(id) from subjects";
+	var studentIdsQuery = "select id from students where grade_id="+subjectDetails.gradeId;
+	db.run(query,function(err){
+		db.all(studentIdsQuery,function(est,students){
+			var studentIds = students.map(function(element){
+				return element.id;
+			});
+			db.get(subjectId,function(err,su_id){
+				su_id = su_id['max(id)'];
+				studentIds.forEach(function(id){
+					var insertInScore = "insert into scores(student_id,subject_id)values("+id+","+su_id+");";
+					db.run(insertInScore,function(eins){});
+				});
+			});
+		});
+		onComplete(null);
+	});
+};
 
 var _addStudent = function(studentDetails,db,onComplete){
 	var add_student_query = "insert into students('name','grade_id')"+
@@ -144,7 +161,7 @@ var _addStudent = function(studentDetails,db,onComplete){
 				subjectIds.forEach(function(sub_id){
 					var update_score_query = "insert into scores('student_id','subject_id')"
 											+"values("+st_id[0].id+","+sub_id+")";
-					db.run(update_score_query,function(err){if(err)console.log(err+"PRint errr")});
+					db.run(update_score_query,function(err){if(err)console.log(err)});
 				})
 			})
 		})
