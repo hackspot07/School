@@ -17,8 +17,10 @@ var _getStudentsByGrade = function(db,onComplete){
 };
 
 var _addSubject = function(subjectDetails,db,onComplete){
-	var query = "insert into subjects('name','maxScore',grade_id)values('"+subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
-	var stu_sub_ids_query = "select st.id as stu_id, su.id as sub_id from students st,subjects su where  su.name='"+subjectDetails.subjectName+"' and st.grade_id ="+subjectDetails.gradeId;
+	var query = "insert into subjects('name','maxScore',grade_id)values('"+
+		subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
+	var stu_sub_ids_query = "select st.id as stu_id, su.id as sub_id from students st,subjects su where  su.name='"+
+		subjectDetails.subjectName+"' and st.grade_id ="+subjectDetails.gradeId;
 	 db.run(query,function(err){
 		 db.all(stu_sub_ids_query,function(st_err,st_id_And_sb_id){
 	 		st_id_And_sb_id.forEach(function(stu_sub_ids){
