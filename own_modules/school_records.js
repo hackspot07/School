@@ -115,7 +115,6 @@ var _updateStudentScore = function(ids,db,onComplete){
 
 var _updateSubjectName = function(subjects,db,onComplete){
 	var query1=updateTemplate("subjects","name",subjects.subjectToChange,{id:subjects.id})
-	console.log(subjects);
 	var query2=updateTemplate("subjects","maxScore",subjects.subjectToChange,{name:subjects.nameForChange});
 	(subjects.nameForChange==undefined)?db.run(query1,onComplete):db.run(query2,onComplete);
 };
@@ -125,7 +124,8 @@ var insertTemplate = function(tbl,tblElements,values){
 }
 
 var _addSubject = function(subjectDetails,db,onComplete){
-	var query = "insert into subjects('name','maxScore',grade_id)values('"+subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
+	var query = "insert into subjects('name','maxScore',grade_id)values('"+
+		subjectDetails.subjectNa+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
 	db.run(query,onComplete);
 }
 
@@ -140,11 +140,11 @@ var _addStudent = function(studentDetails,db,onComplete){
 				db.all(student_subjects_query,function(err,su_id){
 					var subjectIds = su_id.map(function(element){
 						return element.id;
-					})
+				})
 				subjectIds.forEach(function(sub_id){
 					var update_score_query = "insert into scores('student_id','subject_id')"
 											+"values("+st_id[0].id+","+sub_id+")";
-					db.run(update_score_query,function(err){if(err)console.log(err)})
+					db.run(update_score_query,function(err){if(err)console.log(err+"PRint errr")});
 				})
 			})
 		})
