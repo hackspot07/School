@@ -51,10 +51,8 @@ exports.update_garde = function(req,res,next){
 	var currentGrade = req.params.grade;
 	var updateDb = [currentGrade,gradeToChange];
 	if(gradeToChange.trim() !="")
-		school_records.updateGrade(updateDb,function(err){
-			
-		});
-	res.redirect("/grades");
+		school_records.updateGrade(updateDb,function(err){ });
+	res.redirect("http://localhost:3000/grades");
 };
 
 exports.update_student_name = function(req,res){
@@ -65,7 +63,7 @@ exports.update_student_name = function(req,res){
 		school_records.updateStudentName(updateDb,function(err){
 			if(err) res.end("Operation failed");
 			else
-				res.redirect("/students");
+				res.redirect("http://localhost:3000/students");
 		});
 	else res.end("Some fields are empty");
 };
@@ -77,7 +75,7 @@ exports.update_student_grade = function(req,res){
 		school_records.updateStudentGrade([studentId,gradeId],function(err){
 			if(err) res.end("Operation failed");
 			else
-				res.redirect("/students");
+				res.redirect("http://localhost:3000/students");
 		});
 	else res.end("Some fields are empty");
 };
@@ -90,7 +88,7 @@ exports.update_student_score = function(req,res) {
 		school_records.updateStudentScore([studentId,subjectId,score],function(err){
 			if(err) res.end("Operation failed");
 			else
-				res.redirect("/students/"+studentId);
+				res.redirect("http://localhost:3000/students/"+studentId);
 		});
 	else res.end("Some fields are empty");	
 };
@@ -105,8 +103,8 @@ exports.update_subject_name = function(req,res){
 			if(err) res.end("Operation failed");
 			  else{ 
 			  	(nameForChange==undefined)?
-				res.redirect("/subject/"+subjectId):
-				res.redirect("/subjects"); 
+				res.redirect("http://localhost:3000/subject/"+subjectId):
+				res.redirect("http://localhost:3000/subjects"); 
 			}
 		});
 	else res.end("Some fields are empty");	
@@ -125,7 +123,7 @@ exports.add_student = function(req,res){
  	school_records.addStudent(obj,function(err){
  		if(err) res.end("Opeertaion failed");
  		else
- 		res.redirect("/grades/"+grade_id);	
+ 		res.redirect("http://localhost:3000/grades/"+grade_id);	
  	})
  };
 
@@ -143,6 +141,6 @@ exports.add_subject = function(req,res){
  	school_records.addSubject(obj,function(err){
  		if(err) res.end("Operation failed");
  		else
- 		res.redirect("/grades/"+grade_id);	
+ 		res.redirect("http://localhost:3000/grades/"+grade_id);	
  	})
  };
