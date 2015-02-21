@@ -4,29 +4,25 @@ var myDebug =true;
 var _getGrades = function(db,onComplete){
 	var q = 'select * from grades';
 	db.all(q,onComplete);
-};
+};	
 
-var _getStudentsByGrade = function(db,onComplete){
+var _getDataByGrade = function(table,db,onComplete){
 	_getGrades(db,function(err,grades){		
-		db.all('select * from students', function(err1,students){
-			
-			grades.forEach(function(g){
-				g.students = students.filter(function(s){return s.grade_id==g.id});
+		db.all('select * from '+table, function(err1,records){
+			grades.forEach(function(grade){
+				grade[table] = records.filter(function(record){return record.grade_id==grade.id});
 			})			
 			onComplete(null,grades);
 		})
-	});	
+	});
+}
+
+var _getStudentsByGrade = function(db,onComplete){
+	_getDataByGrade("students",db,onComplete);
 };
 
 var _getSubjectsByGrade = function(db,onComplete){
-	_getGrades(db,function(err,grades){	
-		db.all('select * from subjects', function(err1,subjects){
-			grades.forEach(function(g){
-				g.subjects = subjects.filter(function(s){return s.grade_id==g.id});
-			})	
-			onComplete(null,grades);
-		})
-	});	
+	_getDataByGrade("subjects",db,onComplete);
 };
 
 var _getStudentSummary = function(id, db,onComplete){
@@ -121,18 +117,18 @@ var _updateSubjectName = function(subjects,db,onComplete){
 
 var insertTemplate = function(tbl,tblElements,values){
 	return "insert into "+tbl+"("+tblElements.toSring()+") values ('"+values.toSring()+")";
-}
+};
+
+var getId = function(element){return element.id;};
 
 var _addSubject = function(subjectDetails,db,onComplete){
 	var query = "insert into subjects('name','maxScore',grade_id)values('"+
-		subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
+			subjectDetails.subjectName+"',"+subjectDetails.maxScore+","+subjectDetails.gradeId+");";
 	var subjectId = "select max(id) from subjects";
 	var studentIdsQuery = "select id from students where grade_id="+subjectDetails.gradeId;
 	db.run(query,function(err){
 		db.all(studentIdsQuery,function(est,students){
-			var studentIds = students.map(function(element){
-				return element.id;
-			});
+			var studentIds = students.map(getId);
 			db.get(subjectId,function(err,su_id){
 				su_id = su_id['max(id)'];
 				studentIds.forEach(function(id){

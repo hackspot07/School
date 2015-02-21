@@ -2,8 +2,6 @@ var lib = require('../own_modules/school_records');
 var assert = require('chai').assert;
 var fs = require('fs');
 var dbFileData = fs.readFileSync('tests/data/school.db.backup');
-//CREATE TABLE STUDENTS(name text, grade text);
-//INSERT INTO STUDENTS VALUES ('Abu','one'), ('Babu','one')
 
 var school_records;
 describe('school_records',function(){
